@@ -1,21 +1,21 @@
-use reqwest::Client;
+use reqwest::Client; //
 
 #[tokio::main]
 async fn main() {
     let client = Client::new();
 
     let response = client.get("https://scrapeme.live/shop/")
-    .send().await.unwrap();
+    .send().await.unwrap();  // we're going to get stuff.
 
-    let html_content = response.text().await.unwrap();
+    let html_content = response.text().await.unwrap();  //response gives us txt
 
-    let document = scraper::Html::parse_document(&html_content);
+    let document = scraper::Html::parse_document(&html_content); // here is our document after being scraped
 
-    let html_product_selector = scraper::Selector::parse("li.product").unwrap();
+    let html_product_selector = scraper::Selector::parse("li.product").unwrap(); // we're snagging products form "li.product" html
 
-    let html_products = document.select(&html_product_selector);
+    let html_products = document.select(&html_product_selector); // we're assigning products
 
-    for product in html_products {
+    for product in html_products {      //we're going to iterate over this stuff
 
         let url = product
             .select(&scraper::Selector::parse("a").unwrap())
